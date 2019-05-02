@@ -1,13 +1,16 @@
 from time import sleep
+import user_request
 
 CURRENT_ELEVATOR_POSITION=0
+request_list=[user_request.userReq1,user_request.userReq2]
 
-class Elevator(object):
+class Elevator():
 
     def call_Elevator(self,floor,direction,destination_floor):
                  global CURRENT_ELEVATOR_POSITION
                  if direction==1:
                     print("Called Elevator at floor %i for going up.. " %floor)
+                    print("Elevator is currently at floor : %i" % CURRENT_ELEVATOR_POSITION)
                     self.move_elevator(floor,direction,destination_floor)
                     #self.select_floor(direction,destination_floor)
 
@@ -41,10 +44,20 @@ class Elevator(object):
         CURRENT_ELEVATOR_POSITION = current_floor
         print("Passenger has alighted at floor : %i" % CURRENT_ELEVATOR_POSITION)
 
+    def process_request(self,req):
+        for i in range(len(req)):
+            self.start_floor=req[i].start_floor
+            self.direction = req[i].direction
+            self.destination_floor = req[i].destination_floor
+            # self.req2[0]=req[1]
+            self.call_Elevator(self.start_floor,self.direction,self.destination_floor)
 
 elv = Elevator()
-elv.call_Elevator(6,1,9)
-elv.call_Elevator(4,-1,1)
+elv.process_request(request_list)
+# print(request_list[0].start_floor)
+# elv.call_Elevator(request_list)
+# elv.process_request(request_list)
+# elv.call_Elevator(4,-1,1)
 #elv.call_Elevator(3,1,8)
 # elv.call_Elevator(3,1,10)
 # elv.call_Elevator(7,-1,0)
